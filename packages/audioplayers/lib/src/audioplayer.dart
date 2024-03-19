@@ -446,7 +446,7 @@ class AudioPlayer {
     } else {
       _source = BytesSource(bytes, mimeType: mimeType);
       await _completePrepared(
-        () => _platform.setSourceBytes(playerId, bytes, mimeType: mimeType),
+        () => _platform.setSourceBytes(playerId, bytes/*, mimeType: mimeType*/),
       );
     }
   }
