@@ -389,7 +389,7 @@ class AudioPlayer {
       () => _platform.setSourceUrl(
         playerId,
         UriCoder.encodeOnce(url),
-        mimeType: mimeType,
+        // mimeType: mimeType,
         isLocal: false,
       ),
     );
@@ -406,7 +406,7 @@ class AudioPlayer {
         playerId,
         path,
         isLocal: true,
-        mimeType: mimeType,
+        // mimeType: mimeType,
       ),
     );
   }
@@ -423,7 +423,7 @@ class AudioPlayer {
       () => _platform.setSourceUrl(
         playerId,
         cachePath,
-        mimeType: mimeType,
+        // mimeType: mimeType,
         isLocal: true,
       ),
     );
@@ -446,7 +446,7 @@ class AudioPlayer {
     } else {
       _source = BytesSource(bytes, mimeType: mimeType);
       await _completePrepared(
-        () => _platform.setSourceBytes(playerId, bytes, mimeType: mimeType),
+        () => _platform.setSourceBytes(playerId, bytes/*, mimeType: mimeType*/),
       );
     }
   }
