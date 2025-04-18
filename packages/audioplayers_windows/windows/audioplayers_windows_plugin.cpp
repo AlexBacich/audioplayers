@@ -110,7 +110,12 @@ void AudioplayersWindowsPlugin::HandleGlobalMethodCall(
     std::unique_ptr<MethodResult<EncodableValue>> result) {
   auto args = method_call.arguments();
 
-  if (method_call.method_name().compare("setAudioContext") == 0) {
+  if (method_call.method_name().compare("init") == 0) {
+    for (const auto& entry : audioPlayers) {
+      entry.second->Dispose();
+    }
+    audioPlayers.clear();
+  } else if (method_call.method_name().compare("setAudioContext") == 0) {
     this->OnGlobalLog("Setting AudioContext is not supported on Windows");
   } else if (method_call.method_name().compare("emitLog") == 0) {
     auto message = GetArgument<std::string>("message", args, std::string());
@@ -160,8 +165,7 @@ void AudioplayersWindowsPlugin::HandleMethodCall(
   } else if (method_call.method_name().compare("resume") == 0) {
     player->Resume();
   } else if (method_call.method_name().compare("stop") == 0) {
-    player->Pause();
-    player->SeekTo(0);
+    player->Stop();
   } else if (method_call.method_name().compare("release") == 0) {
     player->ReleaseMediaSource();
   } else if (method_call.method_name().compare("seek") == 0) {
@@ -208,18 +212,28 @@ void AudioplayersWindowsPlugin::HandleMethodCall(
     auto playbackRate = GetArgument<double>("playbackRate", args, 1.0);
     player->SetPlaybackSpeed(playbackRate);
   } else if (method_call.method_name().compare("setReleaseMode") == 0) {
-    auto releaseMode =
+    auto releaseModeStr =
         GetArgument<std::string>("releaseMode", args, std::string());
-    if (releaseMode.empty()) {
+    if (releaseModeStr.empty()) {
       result->Error("WindowsAudioError",
                     "Error calling setReleaseMode, releaseMode cannot be null",
                     nullptr);
       return;
     }
-    auto looping = releaseMode.find("loop") != std::string::npos;
-    player->SetLooping(looping);
+    auto releaseModeIt = releaseModeMap.find(releaseModeStr);
+    if (releaseModeIt != releaseModeMap.end()) {
+      player->SetReleaseMode(releaseModeIt->second);
+    } else {
+      result->Error("WindowsAudioError",
+                    "Error calling setReleaseMode, releaseMode '" +
+                        releaseModeStr + "' not known",
+                    nullptr);
+      return;
+    }
   } else if (method_call.method_name().compare("setPlayerMode") == 0) {
     // windows doesn't have multiple player modes, so this should no-op
+  } else if (method_call.method_name().compare("setAudioContext") == 0) {
+    player->OnLog("Setting AudioContext is not supported on Windows");
   } else if (method_call.method_name().compare("setBalance") == 0) {
     auto balance = GetArgument<double>("balance", args, 0.0);
     player->SetBalance(balance);

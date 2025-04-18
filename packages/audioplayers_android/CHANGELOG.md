@@ -1,3 +1,26 @@
+## 5.2.0
+
+ - **FIX**: Make FocusManager compatible with Android API <= 25 (closes [#1895](https://github.com/bluefireteam/audioplayers/issues/1895)) ([#1904](https://github.com/bluefireteam/audioplayers/issues/1904)). ([41238d48](https://github.com/bluefireteam/audioplayers/commit/41238d4837fb5c59b8aaf2e7e8087268a160ebe7))
+ - **FEAT**: Dispose players on Hot restart (closes [#1120](https://github.com/bluefireteam/audioplayers/issues/1120)) ([#1905](https://github.com/bluefireteam/audioplayers/issues/1905)). ([92bcb19e](https://github.com/bluefireteam/audioplayers/commit/92bcb19e10c462cb749e1209c5e066efc5581728))
+
+## 5.1.0
+
+ - **FEAT**(android): ExoPlayer for Android ([#1691](https://github.com/bluefireteam/audioplayers/issues/1691)). ([a91c5b18](https://github.com/bluefireteam/audioplayers/commit/a91c5b185054986a2390d41593b5ee502ef96bdd))
+ - **DOCS**: Fix status badge ([#1899](https://github.com/bluefireteam/audioplayers/issues/1899)). ([a0c6c4fa](https://github.com/bluefireteam/audioplayers/commit/a0c6c4fabff19e943dced1070c1be3541668dce9))
+
+## 5.0.3
+
+ - **FIX**: Raise Android SDK versions ([#1885](https://github.com/bluefireteam/audioplayers/issues/1885)). ([7230bc84](https://github.com/bluefireteam/audioplayers/commit/7230bc84d9dfb0cccfbe5bacb971ef3698495176))
+
+## 5.0.2
+
+ - **FIX**: Change audioFocus dynamically ([#1877](https://github.com/bluefireteam/audioplayers/issues/1877)). ([14f16d9d](https://github.com/bluefireteam/audioplayers/commit/14f16d9dfc52e2eca989e0cc6a27decb8e96af83))
+
+## 5.0.1
+
+ - **FIX**: Avoid multiple audioFocusRequest instances for focus changes ([#1869](https://github.com/bluefireteam/audioplayers/issues/1869)). ([040dde9c](https://github.com/bluefireteam/audioplayers/commit/040dde9c2b1d4601a4c4790fa4a43a4cdd4e9a27))
+ - **FIX**(android): Avoid playing after gaining focus in paused state ([#1857](https://github.com/bluefireteam/audioplayers/issues/1857)). ([01726c13](https://github.com/bluefireteam/audioplayers/commit/01726c1362135a4c3595169dcb1adb311f25f683))
+
 ## 5.0.0
 
 > Note: This release has breaking changes.

@@ -80,16 +80,20 @@ void main() async {
     await player.dispose();
   });
 
-  testWidgets('bytes array source', (WidgetTester tester) async {
-    final player = AudioPlayer();
+  testWidgets(
+    'bytes array source',
+    (WidgetTester tester) async {
+      final player = AudioPlayer();
 
-    await player.play((await mp3BytesTestData()).source);
-    // Sources take some time to get initialized
-    await tester.pumpPlatform(const Duration(seconds: 8));
-    await player.stop();
+      await player.play((await mp3BytesTestData()).source);
+      // Sources take some time to get initialized
+      await tester.pumpPlatform(const Duration(seconds: 8));
+      await player.stop();
 
-    await player.dispose();
-  });
+      await player.dispose();
+    },
+    skip: !features.hasBytesSource,
+  );
 
   group('AP events', () {
     late AudioPlayer player;
@@ -262,6 +266,31 @@ void main() async {
       skip: !features.hasRespectSilence,
     );
 
+    testWidgets(
+      'Set global AudioContextConfig on unsupported platforms',
+      (WidgetTester tester) async {
+        final audioContext = AudioContextConfig().build();
+        final globalLogFuture = AudioPlayer.global.onLog.first;
+        await AudioPlayer.global.setAudioContext(audioContext);
+
+        expect(
+          await globalLogFuture,
+          contains('Setting AudioContext is not supported'),
+        );
+
+        final player = AudioPlayer();
+        final logFuture = player.onLog.first;
+        await player.setAudioContext(audioContext);
+        expect(
+          await logFuture,
+          contains('Setting AudioContext is not supported'),
+        );
+
+        await player.dispose();
+      },
+      skip: features.hasRespectSilence,
+    );
+
     /// Android and iOS only: Play the same sound twice with a different audio
     /// context each. This test can be executed on a device, with either
     /// "Silent", "Vibrate" or "Ring" mode. In "Silent" or "Vibrate" mode
@@ -369,6 +398,6 @@ void main() async {
         await player.stop();
       });
     },
-    skip: !isAndroid,
+    skip: !features.hasLowLatency,
   );
 }

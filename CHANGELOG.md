@@ -3,6 +3,234 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-03-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`audioplayers` - `v6.4.0`](#audioplayers---v640)
+ - [`audioplayers_android` - `v5.2.0`](#audioplayers_android---v520)
+ - [`audioplayers_android_exo` - `v0.1.2`](#audioplayers_android_exo---v012)
+ - [`audioplayers_darwin` - `v6.2.0`](#audioplayers_darwin---v620)
+ - [`audioplayers_linux` - `v4.2.0`](#audioplayers_linux---v420)
+ - [`audioplayers_platform_interface` - `v7.1.0`](#audioplayers_platform_interface---v710)
+ - [`audioplayers_web` - `v5.1.0`](#audioplayers_web---v510)
+ - [`audioplayers_windows` - `v4.2.0`](#audioplayers_windows---v420)
+
+---
+
+#### `audioplayers` - `v6.4.0`
+
+ - **FEAT**: Dispose players on Hot restart (closes [#1120](https://github.com/bluefireteam/audioplayers/issues/1120)) ([#1905](https://github.com/bluefireteam/audioplayers/issues/1905)). ([92bcb19e](https://github.com/bluefireteam/audioplayers/commit/92bcb19e10c462cb749e1209c5e066efc5581728))
+
+#### `audioplayers_android` - `v5.2.0`
+
+ - **FIX**: Make FocusManager compatible with Android API <= 25 (closes [#1895](https://github.com/bluefireteam/audioplayers/issues/1895)) ([#1904](https://github.com/bluefireteam/audioplayers/issues/1904)). ([41238d48](https://github.com/bluefireteam/audioplayers/commit/41238d4837fb5c59b8aaf2e7e8087268a160ebe7))
+ - **FEAT**: Dispose players on Hot restart (closes [#1120](https://github.com/bluefireteam/audioplayers/issues/1120)) ([#1905](https://github.com/bluefireteam/audioplayers/issues/1905)). ([92bcb19e](https://github.com/bluefireteam/audioplayers/commit/92bcb19e10c462cb749e1209c5e066efc5581728))
+
+#### `audioplayers_android_exo` - `v0.1.2`
+
+ - **FIX**: Make FocusManager compatible with Android API <= 25 (closes [#1895](https://github.com/bluefireteam/audioplayers/issues/1895)) ([#1904](https://github.com/bluefireteam/audioplayers/issues/1904)). ([41238d48](https://github.com/bluefireteam/audioplayers/commit/41238d4837fb5c59b8aaf2e7e8087268a160ebe7))
+ - **FEAT**: Dispose players on Hot restart (closes [#1120](https://github.com/bluefireteam/audioplayers/issues/1120)) ([#1905](https://github.com/bluefireteam/audioplayers/issues/1905)). ([92bcb19e](https://github.com/bluefireteam/audioplayers/commit/92bcb19e10c462cb749e1209c5e066efc5581728))
+
+#### `audioplayers_darwin` - `v6.2.0`
+
+ - **FEAT**: Dispose players on Hot restart (closes [#1120](https://github.com/bluefireteam/audioplayers/issues/1120)) ([#1905](https://github.com/bluefireteam/audioplayers/issues/1905)). ([92bcb19e](https://github.com/bluefireteam/audioplayers/commit/92bcb19e10c462cb749e1209c5e066efc5581728))
+
+#### `audioplayers_linux` - `v4.2.0`
+
+ - **FEAT**: Dispose players on Hot restart (closes [#1120](https://github.com/bluefireteam/audioplayers/issues/1120)) ([#1905](https://github.com/bluefireteam/audioplayers/issues/1905)). ([92bcb19e](https://github.com/bluefireteam/audioplayers/commit/92bcb19e10c462cb749e1209c5e066efc5581728))
+
+#### `audioplayers_platform_interface` - `v7.1.0`
+
+ - **FEAT**: Dispose players on Hot restart (closes [#1120](https://github.com/bluefireteam/audioplayers/issues/1120)) ([#1905](https://github.com/bluefireteam/audioplayers/issues/1905)). ([92bcb19e](https://github.com/bluefireteam/audioplayers/commit/92bcb19e10c462cb749e1209c5e066efc5581728))
+
+#### `audioplayers_web` - `v5.1.0`
+
+ - **FEAT**: Dispose players on Hot restart (closes [#1120](https://github.com/bluefireteam/audioplayers/issues/1120)) ([#1905](https://github.com/bluefireteam/audioplayers/issues/1905)). ([92bcb19e](https://github.com/bluefireteam/audioplayers/commit/92bcb19e10c462cb749e1209c5e066efc5581728))
+
+#### `audioplayers_windows` - `v4.2.0`
+
+ - **FEAT**: Dispose players on Hot restart (closes [#1120](https://github.com/bluefireteam/audioplayers/issues/1120)) ([#1905](https://github.com/bluefireteam/audioplayers/issues/1905)). ([92bcb19e](https://github.com/bluefireteam/audioplayers/commit/92bcb19e10c462cb749e1209c5e066efc5581728))
+
+
+## 2025-03-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`audioplayers` - `v6.3.0`](#audioplayers---v630)
+ - [`audioplayers_android` - `v5.1.0`](#audioplayers_android---v510)
+ - [`audioplayers_android_exo` - `v0.1.1`](#audioplayers_android_exo---v011)
+ - [`audioplayers_darwin` - `v6.1.1`](#audioplayers_darwin---v611)
+ - [`audioplayers_linux` - `v4.1.1`](#audioplayers_linux---v411)
+ - [`audioplayers_platform_interface` - `v7.0.1`](#audioplayers_platform_interface---v701)
+ - [`audioplayers_web` - `v5.0.2`](#audioplayers_web---v502)
+ - [`audioplayers_windows` - `v4.1.1`](#audioplayers_windows---v411)
+
+---
+
+#### `audioplayers` - `v6.3.0`
+
+ - **FEAT**(android): ExoPlayer for Android ([#1691](https://github.com/bluefireteam/audioplayers/issues/1691)). ([a91c5b18](https://github.com/bluefireteam/audioplayers/commit/a91c5b185054986a2390d41593b5ee502ef96bdd))\
+   You can enable the non-endorsed plugin implementation based on ExoPlayer (Media3) by calling: `flutter pub add audioplayers_android_exo` in your app package folder.
+   For more, see: https://github.com/bluefireteam/audioplayers/blob/main/feature_parity_table.md#media3-exoplayer
+ - **FEAT**: Raise to Flutter 3.29.0 ([#1891](https://github.com/bluefireteam/audioplayers/issues/1891)). ([26bd6d22](https://github.com/bluefireteam/audioplayers/commit/26bd6d228deacf7cb3454f2d1b972585cd8bb6ea))
+ - **DOCS**: Fix status badge ([#1899](https://github.com/bluefireteam/audioplayers/issues/1899)). ([a0c6c4fa](https://github.com/bluefireteam/audioplayers/commit/a0c6c4fabff19e943dced1070c1be3541668dce9))
+
+#### `audioplayers_android` - `v5.1.0`
+
+ - **FEAT**(android): ExoPlayer for Android ([#1691](https://github.com/bluefireteam/audioplayers/issues/1691)). ([a91c5b18](https://github.com/bluefireteam/audioplayers/commit/a91c5b185054986a2390d41593b5ee502ef96bdd))
+ - **DOCS**: Fix status badge ([#1899](https://github.com/bluefireteam/audioplayers/issues/1899)). ([a0c6c4fa](https://github.com/bluefireteam/audioplayers/commit/a0c6c4fabff19e943dced1070c1be3541668dce9))
+
+#### `audioplayers_android_exo` - `v0.1.1`
+
+ - **FEAT**(android): ExoPlayer for Android ([#1691](https://github.com/bluefireteam/audioplayers/issues/1691)). ([a91c5b18](https://github.com/bluefireteam/audioplayers/commit/a91c5b185054986a2390d41593b5ee502ef96bdd))
+ - **DOCS**: Fix status badge ([#1899](https://github.com/bluefireteam/audioplayers/issues/1899)). ([a0c6c4fa](https://github.com/bluefireteam/audioplayers/commit/a0c6c4fabff19e943dced1070c1be3541668dce9))
+
+#### `audioplayers_darwin` - `v6.1.1`
+
+ - **DOCS**: Fix status badge ([#1899](https://github.com/bluefireteam/audioplayers/issues/1899)). ([a0c6c4fa](https://github.com/bluefireteam/audioplayers/commit/a0c6c4fabff19e943dced1070c1be3541668dce9))
+
+#### `audioplayers_linux` - `v4.1.1`
+
+ - **DOCS**: Fix status badge ([#1899](https://github.com/bluefireteam/audioplayers/issues/1899)). ([a0c6c4fa](https://github.com/bluefireteam/audioplayers/commit/a0c6c4fabff19e943dced1070c1be3541668dce9))
+
+#### `audioplayers_platform_interface` - `v7.0.1`
+
+ - **DOCS**: Fix status badge ([#1899](https://github.com/bluefireteam/audioplayers/issues/1899)). ([a0c6c4fa](https://github.com/bluefireteam/audioplayers/commit/a0c6c4fabff19e943dced1070c1be3541668dce9))
+
+#### `audioplayers_web` - `v5.0.2`
+
+ - **DOCS**: Fix status badge ([#1899](https://github.com/bluefireteam/audioplayers/issues/1899)). ([a0c6c4fa](https://github.com/bluefireteam/audioplayers/commit/a0c6c4fabff19e943dced1070c1be3541668dce9))
+
+#### `audioplayers_windows` - `v4.1.1`
+
+ - **DOCS**: Fix status badge ([#1899](https://github.com/bluefireteam/audioplayers/issues/1899)). ([a0c6c4fa](https://github.com/bluefireteam/audioplayers/commit/a0c6c4fabff19e943dced1070c1be3541668dce9))
+
+
+## 2025-02-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`audioplayers` - `v6.2.0`](#audioplayers---v620)
+ - [`audioplayers_android` - `v5.0.3`](#audioplayers_android---v503)
+ - [`audioplayers_darwin` - `v6.1.0`](#audioplayers_darwin---v610)
+ - [`audioplayers_linux` - `v4.1.0`](#audioplayers_linux---v410)
+ - [`audioplayers_windows` - `v4.1.0`](#audioplayers_windows---v410)
+
+---
+
+#### `audioplayers` - `v6.2.0`
+
+ - **FIX**: No-op on single player setAudioContext in desktop platforms ([#1888](https://github.com/bluefireteam/audioplayers/issues/1888)). ([50d7a8b8](https://github.com/bluefireteam/audioplayers/commit/50d7a8b89f47e3ef29e98cf2b74a582f78783d5e))
+ - **FEAT**: Support setting AudioContext in AudioPool ([#1890](https://github.com/bluefireteam/audioplayers/issues/1890)). ([2968c88b](https://github.com/bluefireteam/audioplayers/commit/2968c88b4e1492a29d4cd0e5f7735f159f995c1a))
+ - **FEAT**: ReleaseMode.release for ios, macos, windows, web, linux ([#1790](https://github.com/bluefireteam/audioplayers/issues/1790)). ([4ffc4029](https://github.com/bluefireteam/audioplayers/commit/4ffc4029d846d7c391c457b829c372c1763b7b50))
+
+#### `audioplayers_android` - `v5.0.3`
+
+ - **FIX**: Raise Android SDK versions ([#1885](https://github.com/bluefireteam/audioplayers/issues/1885)). ([7230bc84](https://github.com/bluefireteam/audioplayers/commit/7230bc84d9dfb0cccfbe5bacb971ef3698495176))
+
+#### `audioplayers_darwin` - `v6.1.0`
+
+ - **FIX**: No-op on single player setAudioContext in desktop platforms ([#1888](https://github.com/bluefireteam/audioplayers/issues/1888)). ([50d7a8b8](https://github.com/bluefireteam/audioplayers/commit/50d7a8b89f47e3ef29e98cf2b74a582f78783d5e))
+ - **FEAT**: ReleaseMode.release for ios, macos, windows, web, linux ([#1790](https://github.com/bluefireteam/audioplayers/issues/1790)). ([4ffc4029](https://github.com/bluefireteam/audioplayers/commit/4ffc4029d846d7c391c457b829c372c1763b7b50))
+
+#### `audioplayers_linux` - `v4.1.0`
+
+ - **FIX**: No-op on single player setAudioContext in desktop platforms ([#1888](https://github.com/bluefireteam/audioplayers/issues/1888)). ([50d7a8b8](https://github.com/bluefireteam/audioplayers/commit/50d7a8b89f47e3ef29e98cf2b74a582f78783d5e))
+ - **FEAT**: ReleaseMode.release for ios, macos, windows, web, linux ([#1790](https://github.com/bluefireteam/audioplayers/issues/1790)). ([4ffc4029](https://github.com/bluefireteam/audioplayers/commit/4ffc4029d846d7c391c457b829c372c1763b7b50))
+
+#### `audioplayers_windows` - `v4.1.0`
+
+ - **FIX**: No-op on single player setAudioContext in desktop platforms ([#1888](https://github.com/bluefireteam/audioplayers/issues/1888)). ([50d7a8b8](https://github.com/bluefireteam/audioplayers/commit/50d7a8b89f47e3ef29e98cf2b74a582f78783d5e))
+ - **FEAT**: ReleaseMode.release for ios, macos, windows, web, linux ([#1790](https://github.com/bluefireteam/audioplayers/issues/1790)). ([4ffc4029](https://github.com/bluefireteam/audioplayers/commit/4ffc4029d846d7c391c457b829c372c1763b7b50))
+
+
+## 2025-02-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`audioplayers_android` - `v5.0.2`](#audioplayers_android---v502)
+ - [`audioplayers` - `v6.1.2`](#audioplayers---v612)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `audioplayers` - `v6.1.2`
+
+---
+
+#### `audioplayers_android` - `v5.0.2`
+
+ - **FIX**: Change audioFocus dynamically ([#1877](https://github.com/bluefireteam/audioplayers/issues/1877)). ([14f16d9d](https://github.com/bluefireteam/audioplayers/commit/14f16d9dfc52e2eca989e0cc6a27decb8e96af83))
+
+
+## 2025-01-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`audioplayers_android` - `v5.0.1`](#audioplayers_android---v501)
+ - [`audioplayers_linux` - `v4.0.1`](#audioplayers_linux---v401)
+ - [`audioplayers` - `v6.1.1`](#audioplayers---v611)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `audioplayers` - `v6.1.1`
+
+---
+
+#### `audioplayers_android` - `v5.0.1`
+
+ - **FIX**: Avoid multiple audioFocusRequest instances for focus changes ([#1869](https://github.com/bluefireteam/audioplayers/issues/1869)). ([040dde9c](https://github.com/bluefireteam/audioplayers/commit/040dde9c2b1d4601a4c4790fa4a43a4cdd4e9a27))
+ - **FIX**(android): Avoid playing after gaining focus in paused state ([#1857](https://github.com/bluefireteam/audioplayers/issues/1857)). ([01726c13](https://github.com/bluefireteam/audioplayers/commit/01726c1362135a4c3595169dcb1adb311f25f683))
+
+#### `audioplayers_linux` - `v4.0.1`
+
+ - **DOCS**: Add Fedora/RHEL Dependency instructions ([#1851](https://github.com/bluefireteam/audioplayers/issues/1851)). ([b401a23c](https://github.com/bluefireteam/audioplayers/commit/b401a23c934c93a78893bb2def011cd10508c33b))
+
+
 ## 2024-08-26
 
 ### Changes

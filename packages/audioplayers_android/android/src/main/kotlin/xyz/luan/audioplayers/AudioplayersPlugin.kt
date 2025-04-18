@@ -54,13 +54,18 @@ class AudioplayersPlugin : FlutterPlugin {
     ) {
         try {
             handler(call, response)
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             response.error("Unexpected AndroidAudioError", e.message, e)
         }
     }
 
     private fun globalMethodHandler(call: MethodCall, response: MethodChannel.Result) {
         when (call.method) {
+            "init" -> {
+                players.values.forEach { it.dispose() }
+                players.clear()
+            }
+
             "setAudioContext" -> {
                 val audioManager = getAudioManager()
                 audioManager.mode = defaultAudioContext.audioMode
@@ -119,7 +124,7 @@ class AudioplayersPlugin : FlutterPlugin {
                 "setSourceBytes" -> {
                     val bytes = call.argument<ByteArray>("bytes") ?: error("bytes are required")
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                        error("Operation not supported on Android <= M")
+                        error("BytesSource is not supported on Android <= M")
                     }
                     player.source = BytesSource(bytes)
                 }

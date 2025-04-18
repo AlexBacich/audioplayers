@@ -6,70 +6,150 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import xyz.luan.audioplayers.AudioContextAndroid
 
-class FocusManager(
-    private val player: WrappedPlayer,
-) {
-    private var audioFocusChangeListener: AudioManager.OnAudioFocusChangeListener? = null
-    private var audioFocusRequest: AudioFocusRequest? = null
+abstract class FocusManager {
+    abstract val player: WrappedPlayer
+    abstract val onGranted: () -> Unit
+    abstract val onLoss: (isTransient: Boolean) -> Unit
+    abstract var context: AudioContextAndroid
 
-    private val context: AudioContextAndroid
-        get() = player.context
-
-    private val audioManager: AudioManager
-        get() = player.audioManager
-
-    fun maybeRequestAudioFocus(andThen: () -> Unit) {
-        if (context.audioFocus == AudioManager.AUDIOFOCUS_NONE) {
-            andThen()
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            newRequestAudioFocus(andThen)
-        } else {
-            @Suppress("DEPRECATION")
-            oldRequestAudioFocus(andThen)
-        }
-    }
-
-    fun handleStop() {
-        if (context.audioFocus != AudioManager.AUDIOFOCUS_NONE) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                audioFocusRequest?.let { audioManager.abandonAudioFocusRequest(it) }
+    companion object {
+        fun create(
+            player: WrappedPlayer,
+            onGranted: () -> Unit,
+            onLoss: (isTransient: Boolean) -> Unit,
+        ): FocusManager {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                ModernFocusManager(player, onGranted, onLoss)
             } else {
-                @Suppress("DEPRECATION")
-                audioManager.abandonAudioFocus(audioFocusChangeListener)
+                LegacyFocusManager(player, onGranted, onLoss)
             }
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun newRequestAudioFocus(andThen: () -> Unit) {
-        val audioFocus = context.audioFocus
+    protected abstract fun hasAudioFocusRequest(): Boolean
 
-        val audioFocusRequest = AudioFocusRequest.Builder(audioFocus)
-            .setAudioAttributes(context.buildAttributes())
-            .setOnAudioFocusChangeListener { handleFocusResult(it, andThen) }
-            .build()
-        this.audioFocusRequest = audioFocusRequest
+    protected abstract fun updateAudioFocusRequest()
 
-        val result = audioManager.requestAudioFocus(audioFocusRequest)
-        handleFocusResult(result, andThen)
+    protected val audioManager: AudioManager
+        get() = player.audioManager
+
+    fun maybeRequestAudioFocus() {
+        if (context != player.context) {
+            context = player.context
+            updateAudioFocusRequest()
+        }
+        if (hasAudioFocusRequest()) {
+            requestAudioFocus()
+        } else {
+            // Grant without requesting focus, if it is AudioManager.AUDIOFOCUS_NONE
+            onGranted()
+        }
     }
 
-    @Deprecated("Use requestAudioFocus instead")
-    private fun oldRequestAudioFocus(andThen: () -> Unit) {
-        val audioFocus = context.audioFocus
-        audioFocusChangeListener = AudioManager.OnAudioFocusChangeListener { handleFocusResult(it, andThen) }
+    protected abstract fun requestAudioFocus()
+
+    abstract fun handleStop()
+
+    protected fun handleFocusResult(result: Int) {
+        when (result) {
+            AudioManager.AUDIOFOCUS_REQUEST_GRANTED -> {
+                onGranted()
+            }
+
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
+                onLoss(true)
+            }
+
+            AudioManager.AUDIOFOCUS_LOSS -> {
+                onLoss(false)
+            }
+        }
+        // Keep playing source on `AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK` as sound is ducked.
+    }
+}
+
+private class LegacyFocusManager(
+    override val player: WrappedPlayer,
+    override val onGranted: () -> Unit,
+    override val onLoss: (isTransient: Boolean) -> Unit,
+) : FocusManager() {
+    override var context: AudioContextAndroid = player.context
+
+    // Deprecated variant of listening to focus changes
+    private var audioFocusChangeListener: AudioManager.OnAudioFocusChangeListener? = null
+
+    init {
+        updateAudioFocusRequest()
+    }
+
+    override fun hasAudioFocusRequest(): Boolean {
+        return audioFocusChangeListener != null
+    }
+
+    override fun updateAudioFocusRequest() {
+        audioFocusChangeListener = if (context.audioFocus == AudioManager.AUDIOFOCUS_NONE) {
+            // Mix sound with others
+            null
+        } else {
+            AudioManager.OnAudioFocusChangeListener { handleFocusResult(it) }
+        }
+    }
+
+    override fun handleStop() {
+        if (hasAudioFocusRequest()) {
+            @Suppress("DEPRECATION")
+            audioManager.abandonAudioFocus(audioFocusChangeListener)
+        }
+    }
+
+    override fun requestAudioFocus() {
         @Suppress("DEPRECATION")
         val result = audioManager.requestAudioFocus(
             audioFocusChangeListener,
             AudioManager.STREAM_MUSIC,
-            audioFocus,
+            context.audioFocus,
         )
-        handleFocusResult(result, andThen)
+        handleFocusResult(result)
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+private class ModernFocusManager(
+    override val player: WrappedPlayer,
+    override val onGranted: () -> Unit,
+    override val onLoss: (isTransient: Boolean) -> Unit,
+) : FocusManager() {
+    override var context: AudioContextAndroid = player.context
+
+    // Listen also for focus changes, e.g. if interrupt playing with a phone call and resume afterward.
+    private var audioFocusRequest: AudioFocusRequest? = null
+
+    init {
+        updateAudioFocusRequest()
     }
 
-    private fun handleFocusResult(result: Int, andThen: () -> Unit) {
-        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            andThen()
+    override fun hasAudioFocusRequest(): Boolean {
+        return audioFocusRequest != null
+    }
+
+    override fun updateAudioFocusRequest() {
+        audioFocusRequest = if (context.audioFocus == AudioManager.AUDIOFOCUS_NONE) {
+            // Mix sound with others
+            null
+        } else {
+            AudioFocusRequest.Builder(context.audioFocus).setAudioAttributes(context.buildAttributes())
+                .setOnAudioFocusChangeListener { handleFocusResult(it) }.build()
         }
+    }
+
+    override fun handleStop() {
+        if (hasAudioFocusRequest()) {
+            audioFocusRequest?.let { audioManager.abandonAudioFocusRequest(it) }
+        }
+    }
+
+    override fun requestAudioFocus() {
+        val result = audioManager.requestAudioFocus(audioFocusRequest!!)
+        handleFocusResult(result)
     }
 }

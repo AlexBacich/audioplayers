@@ -22,7 +22,7 @@ class WrappedPlayer internal constructor(
     var context: AudioContextAndroid,
     private val soundPoolManager: SoundPoolManager,
 ) {
-    private var player: Player? = null
+    private var player: PlayerWrapper? = null
 
     var source: Source? = null
         set(value) {
@@ -115,14 +115,31 @@ class WrappedPlayer internal constructor(
     var playing = false
     var shouldSeekTo = -1
 
-    private val focusManager = FocusManager(this)
+    private val focusManager = FocusManager.create(
+        this,
+        onGranted = {
+            // Check if in playing state, as the focus can also be gained e.g. after a phone call, even if not playing.
+            if (playing) {
+                player?.start()
+            }
+        },
+        onLoss = { isTransient ->
+            if (isTransient) {
+                // Do not check or set playing state, as the state should be recovered after granting focus again.
+                player?.pause()
+            } else {
+                // Audio focus won't be recovered
+                pause()
+            }
+        },
+    )
 
     private fun maybeGetCurrentPosition(): Int {
         // for Sound Pool, we can't get current position, so we just start over
         return runCatching { player?.getCurrentPosition().takeUnless { it == 0 } }.getOrNull() ?: -1
     }
 
-    private fun getOrCreatePlayer(): Player {
+    private fun getOrCreatePlayer(): PlayerWrapper {
         val currentPlayer = player
         return if (released || currentPlayer == null) {
             createPlayer().also {
@@ -192,19 +209,19 @@ class WrappedPlayer internal constructor(
      * Playback handling methods
      */
     fun play() {
-        focusManager.maybeRequestAudioFocus(andThen = ::actuallyPlay)
-    }
-
-    private fun actuallyPlay() {
         if (!playing && !released) {
-            val currentPlayer = player
             playing = true
-            if (currentPlayer == null) {
+            if (player == null) {
                 initPlayer()
             } else if (prepared) {
-                currentPlayer.start()
+                requestFocusAndStart()
             }
         }
+    }
+
+    // Try to get audio focus and then start.
+    private fun requestFocusAndStart() {
+        focusManager.maybeRequestAudioFocus()
     }
 
     fun stop() {
@@ -271,7 +288,7 @@ class WrappedPlayer internal constructor(
         prepared = true
         ref.handleDuration(this)
         if (playing) {
-            player?.start()
+            requestFocusAndStart()
         }
         if (shouldSeekTo >= 0 && player?.isLiveStream() != true) {
             player?.seekTo(shouldSeekTo)
@@ -339,9 +356,9 @@ class WrappedPlayer internal constructor(
     /**
      * Create new player
      */
-    private fun createPlayer(): Player {
+    private fun createPlayer(): PlayerWrapper {
         return when (playerMode) {
-            MEDIA_PLAYER -> MediaPlayerPlayer(this)
+            MEDIA_PLAYER -> MediaPlayerWrapper(this)
             LOW_LATENCY -> SoundPoolPlayer(this, soundPoolManager)
         }
     }
@@ -359,13 +376,13 @@ class WrappedPlayer internal constructor(
         }
     }
 
-    private fun Player.configAndPrepare() {
+    private fun PlayerWrapper.configAndPrepare() {
         setVolumeAndBalance(volume, balance)
         setLooping(isLooping)
         prepare()
     }
 
-    private fun Player.setVolumeAndBalance(volume: Float, balance: Float) {
+    private fun PlayerWrapper.setVolumeAndBalance(volume: Float, balance: Float) {
         val leftVolume = min(1f, 1f - balance) * volume
         val rightVolume = min(1f, 1f + balance) * volume
         setVolume(leftVolume, rightVolume)
