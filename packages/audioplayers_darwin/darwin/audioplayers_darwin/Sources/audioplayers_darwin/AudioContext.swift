@@ -21,16 +21,16 @@ import MediaPlayer
     public func activateAudioSession(
       active: Bool
     ) throws {
-      let session = AVAudioSession.sharedInstance()
-      try session.setActive(active)
+//     let session = AVAudioSession.sharedInstance()
+//     try session.setActive(active)
     }
 
     public func apply() throws {
-      let session = AVAudioSession.sharedInstance()
-      let combinedOptions = options.reduce(AVAudioSession.CategoryOptions()) {
-        [$0, $1]
-      }
-      try session.setCategory(category, options: combinedOptions)
+//      let session = AVAudioSession.sharedInstance()
+//      let combinedOptions = options.reduce(AVAudioSession.CategoryOptions()) {
+//        [$0, $1]
+//      }
+//      try session.setCategory(category, options: combinedOptions)
     }
 
     public static func parse(args: [String: Any]) throws -> AudioContext? {

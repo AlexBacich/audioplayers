@@ -4,3 +4,5 @@ pubspec.lock
 .dart_tool/
 pubspec_overrides.yaml
 .flutter-plugins-dependencies
+packages/audioplayers_darwin/
+.DS_Store
