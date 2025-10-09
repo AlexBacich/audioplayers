@@ -29,6 +29,10 @@ class SoundPoolPlayer(
     /** The id of the stream / player */
     private var streamId: Int? = null
 
+    /** Mono sound volume values that are used if [WrappedPlayer.convertMonoToStereo] is true */
+    private var monoSoundLeftVolume: Float = 1.0f
+    private var monoSoundRightVolume: Float = 1.0f
+
     private var audioContext = wrappedPlayer.context
         set(value) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -47,6 +51,13 @@ class SoundPoolPlayer(
 
     private val soundPool: SoundPool
         get() = soundPoolWrapper.soundPool
+
+    private val monoAsStereoPlayer = MonoAsStereoPlayer(
+        context = wrappedPlayer.applicationContext,
+        onLog = { message -> wrappedPlayer.handleLog(message) },
+        onError = { code, message -> wrappedPlayer.handleError(code, message, null) },
+        cacheConvertedSound = { wrappedPlayer.cacheConvertedStereoSound },
+    )
 
     init {
         soundPoolManager.createSoundPoolWrapper(MAX_STREAMS, audioContext)
@@ -139,6 +150,10 @@ class SoundPoolPlayer(
         }
 
     override fun setVolume(leftVolume: Float, rightVolume: Float) {
+        if (wrappedPlayer.convertMonoToStereo) {
+            monoSoundLeftVolume = leftVolume
+            monoSoundRightVolume = rightVolume
+        }
         streamId?.let { soundPool.setVolume(it, leftVolume, rightVolume) }
     }
 
@@ -176,14 +191,18 @@ class SoundPoolPlayer(
         if (streamId != null) {
             soundPool.resume(streamId)
         } else if (soundId != null) {
-            this.streamId = soundPool.play(
-                soundId,
-                wrappedPlayer.volume,
-                wrappedPlayer.volume,
-                0,
-                wrappedPlayer.isLooping.loopModeInteger(),
-                wrappedPlayer.rate,
-            )
+            if (needsStereoConversion()) {
+                playMonoAsStereo()
+            } else {
+                this.streamId = soundPool.play(
+                    soundId,
+                    wrappedPlayer.volume,
+                    wrappedPlayer.volume,
+                    0,
+                    wrappedPlayer.isLooping.loopModeInteger(),
+                    wrappedPlayer.rate,
+                )
+            }
         }
     }
 
@@ -202,6 +221,20 @@ class SoundPoolPlayer(
 
     private fun unsupportedOperation(message: String): Nothing {
         throw UnsupportedOperationException("LOW_LATENCY mode does not support: $message")
+    }
+
+    private fun needsStereoConversion(): Boolean = wrappedPlayer.convertMonoToStereo &&
+        monoAsStereoPlayer.needsStereoConversion(monoSoundLeftVolume, monoSoundRightVolume)
+    
+    private fun playMonoAsStereo() {
+        val audioPath = urlSource?.getAudioPathForSoundPool() ?: return
+        val audioAttributes = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            audioContext.buildAttributes()
+        } else {
+            AudioAttributes.Builder().build()
+        }
+        wrappedPlayer.prepared = true
+        monoAsStereoPlayer.play(audioPath, monoSoundLeftVolume, monoSoundRightVolume, audioAttributes)
     }
 }
 

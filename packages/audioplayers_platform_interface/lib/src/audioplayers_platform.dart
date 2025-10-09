@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:audioplayers_platform_interface/src/api/audio_context.dart';
 import 'package:audioplayers_platform_interface/src/api/audio_event.dart';
@@ -8,6 +9,8 @@ import 'package:audioplayers_platform_interface/src/audioplayers_platform_interf
 import 'package:audioplayers_platform_interface/src/map_extension.dart';
 import 'package:audioplayers_platform_interface/src/method_channel_extension.dart';
 import 'package:flutter/services.dart';
+
+import '../audioplayers_platform_interface.dart';
 
 class AudioplayersPlatform extends AudioplayersPlatformInterface
     with MethodChannelAudioplayersPlatform, EventChannelAudioplayersPlatform {
@@ -98,6 +101,22 @@ mixin MethodChannelAudioplayersPlatform
       'setBalance',
       playerId,
       <String, dynamic>{'balance': balance},
+    );
+  }
+
+  @override
+  Future<void> convertMonoToStereo(
+    String playerId,
+    bool enable,
+    {bool cacheConvertedSound = false}
+  ) {
+    return _call(
+      'convertMonoToStereo',
+      playerId,
+      <String, dynamic>{
+        'enable': enable,
+        'cacheConvertedSound': cacheConvertedSound,
+      },
     );
   }
 

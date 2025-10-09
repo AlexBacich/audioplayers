@@ -314,6 +314,38 @@ class AudioPlayer {
     return _platform.setBalance(playerId, balance);
   }
 
+  /// Enables stereo conversion for mono audio (Android only).
+  ///
+  /// **Purpose:**
+  /// Allows true per-channel volume control for mono sounds (e.g., route audio to one ear).
+  ///
+  /// **Behavior:**
+  /// When enabled and [setBalance] sets different L/R volumes, mono audio is converted to
+  /// stereo with channel-specific control.
+  ///
+  /// **Caching (optional):**
+  /// If `cacheConvertedSound` is true, decoded PCM is cached (up to 5 MB, LRU).
+  /// Great for frequently played sounds (beeps, notifications, UI clicks).
+  ///
+  /// **Notes:**
+  /// - Default: disabled (`false`)
+  /// - Only works with [PlayerMode.lowLatency]
+  /// - No effect if audio is stereo or balance = 0.0
+  /// - Slightly higher CPU use; caching uses RAM but speeds up replays
+  /// - Call before [play]
+  ///
+  /// **Example:**
+  /// ```dart
+  /// await player.setPlayerMode(PlayerMode.lowLatency);
+  /// await player.convertMonoToStereo(true, cacheConvertedSound: true);
+  /// await player.setBalance(-1.0); // Left ear only
+  /// await player.play(AssetSource('beep.mp3'));
+  /// ```
+  Future<void> convertMonoToStereo(bool enabled, {bool cacheConvertedSound = false}) async {
+    await creatingCompleter.future;
+    return _platform.convertMonoToStereo(playerId, enabled, cacheConvertedSound: cacheConvertedSound);
+  }
+
   /// Sets the volume (amplitude).
   ///
   /// 0 is mute and 1 is the max volume. The values between 0 and 1 are linearly
