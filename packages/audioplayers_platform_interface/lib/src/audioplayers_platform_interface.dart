@@ -71,6 +71,20 @@ abstract class MethodChannelAudioplayersPlatformInterface {
   ///  0 - Both channels are at the same volume.
   Future<void> setBalance(String playerId, double balance);
 
+  /// Enables or disables stereo conversion for mono audio (Android only).
+  ///
+  /// When enabled and balance/volume differs between channels, mono audio files
+  /// will be converted to stereo with proper left/right channel control.
+  /// This allows true per-channel volume control even for mono audio sources.
+  ///
+  /// The [cacheConvertedSound] parameter enables PCM caching for repeated playback of the
+  /// same audio files. When true, decoded PCM data is cached to avoid redundant
+  /// decoding. Recommended for sounds played repeatedly (beeps, notifications, UI clicks).
+  /// Cache is limited to 5MB with LRU eviction. Default is false.
+  ///
+  /// Default is false (disabled). Only affects Android LOW_LATENCY mode.
+  Future<void> convertMonoToStereo(String playerId, bool enable, {bool cacheConvertedSound = false});
+
   /// Sets the volume (amplitude).
   ///
   /// 0 is mute and 1 is the max volume. The values between 0 and 1 are linearly

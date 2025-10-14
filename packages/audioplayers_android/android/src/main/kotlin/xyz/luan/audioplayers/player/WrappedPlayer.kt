@@ -134,6 +134,11 @@ class WrappedPlayer internal constructor(
         },
     )
 
+    // Convert mono sources to stereo to allow balance control
+    var convertMonoToStereo = false
+    // Enable caching for converted stereo sources to improve performance
+    var cacheConvertedStereoSound = false
+
     private fun maybeGetCurrentPosition(): Int {
         // for Sound Pool, we can't get current position, so we just start over
         return runCatching { player?.getCurrentPosition().takeUnless { it == 0 } }.getOrNull() ?: -1

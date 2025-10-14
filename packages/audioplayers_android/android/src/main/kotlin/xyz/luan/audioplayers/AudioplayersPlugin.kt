@@ -148,6 +148,13 @@ class AudioplayersPlugin : FlutterPlugin {
                     player.balance = balance.toFloat()
                 }
 
+                "convertMonoToStereo" -> {
+                    val enable = call.argument<Boolean>("enable") ?: error("enable is required")
+                    val useCache = call.argument<Boolean>("cacheConvertedSound") ?: false
+                    player.convertMonoToStereo = enable
+                    player.cacheConvertedStereoSound = useCache
+                }
+
                 "setPlaybackRate" -> {
                     val rate = call.argument<Double>("playbackRate") ?: error("playbackRate is required")
                     player.rate = rate.toFloat()
