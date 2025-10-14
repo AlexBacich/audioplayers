@@ -390,7 +390,7 @@ class AudioPlayer {
       () => _platform.setSourceUrl(
         playerId,
         UriCoder.encodeOnce(url),
-        // mimeType: mimeType,
+        mimeType: mimeType,
         isLocal: false,
       ),
     );
